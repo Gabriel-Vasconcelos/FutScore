@@ -1,5 +1,6 @@
 package br.com.futscore
 
+import CountUpTimer
 import ScoreManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
     var gameStarted: Boolean = false
+    private var countUpTimer: CountUpTimer? = null
     var score = ScoreManager()
     var scoreTeam01: Int = score.getScore(1)
     var scoreTeam02: Int = score.getScore(2)
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         btnStart = findViewById(R.id.btnStart)
         txtScore01 = findViewById(R.id.txtScore01)
         txtScore02 = findViewById(R.id.txtScore02)
+        txtTimer = findViewById(R.id.txtTimer)
         btnSettings = findViewById(R.id.btnSettings)
         btnHistory = findViewById(R.id.btnHistory)
         btnUndo = findViewById(R.id.btnUndo)
@@ -41,6 +44,11 @@ class MainActivity : AppCompatActivity() {
 
         btnStart.setOnClickListener(View.OnClickListener {
             gameStarted = true
+            btnStart.isClickable = false
+            countUpTimer = CountUpTimer { elapsedTime ->
+                txtTimer.text = formatTime(elapsedTime)
+            }
+            countUpTimer?.start()
         })
 
         txtScore01.setOnClickListener(View.OnClickListener {
@@ -92,5 +100,11 @@ class MainActivity : AppCompatActivity() {
     private fun updateScore() {
         txtScore01.text = String.format("%02d", scoreTeam01)
         txtScore02.text = String.format("%02d", scoreTeam02)
+    }
+
+    private fun formatTime(seconds: Long): String {
+        val minutes = seconds / 60
+        val remainingSeconds = seconds % 60
+        return String.format("%02d:%02d", minutes, remainingSeconds)
     }
 }
