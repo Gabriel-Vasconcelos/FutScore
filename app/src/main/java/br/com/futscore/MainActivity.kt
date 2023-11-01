@@ -1,5 +1,6 @@
 package br.com.futscore
 
+import ScoreManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,8 +11,9 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
     var gameStarted: Boolean = false
-    var scoreTeam01: Int = 0
-    var scoreTeam02: Int = 0
+    var score = ScoreManager()
+    var scoreTeam01: Int = score.getScore(1)
+    var scoreTeam02: Int = score.getScore(2)
 
 
     private lateinit var txtGame: TextView
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         txtScore02 = findViewById(R.id.txtScore02)
         btnSettings = findViewById(R.id.btnSettings)
         btnHistory = findViewById(R.id.btnHistory)
+        btnUndo = findViewById(R.id.btnUndo)
 
 
         btnStart.setOnClickListener(View.OnClickListener {
@@ -42,14 +45,24 @@ class MainActivity : AppCompatActivity() {
 
         txtScore01.setOnClickListener(View.OnClickListener {
             if(gameStarted){
-                scoreTeam01++
+                score.updateScore(1, scoreTeam01 + 1)
+                scoreTeam01 = score.getScore(1)
+                updateScore()
+
+                score.updateScore(2, scoreTeam02)
+                scoreTeam02 = score.getScore(2)
                 updateScore()
             }
         })
 
         txtScore02.setOnClickListener(View.OnClickListener {
             if(gameStarted){
-                scoreTeam02++
+                score.updateScore(1, scoreTeam01)
+                scoreTeam01 = score.getScore(1)
+                updateScore()
+
+                score.updateScore(2, scoreTeam02 + 1)
+                scoreTeam02 = score.getScore(2)
                 updateScore()
             }
         })
@@ -63,6 +76,18 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, HistoricActivity::class.java)
             startActivity(intent)
         }
+
+        btnUndo.setOnClickListener(View.OnClickListener {
+            score.undo(1)
+            scoreTeam01 = score.getScore(1)
+            updateScore()
+
+            score.undo(2)
+            scoreTeam02 = score.getScore(2)
+            updateScore()
+        })
+
+
     }
     private fun updateScore() {
         txtScore01.text = String.format("%02d", scoreTeam01)
