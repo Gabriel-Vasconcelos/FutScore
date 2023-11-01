@@ -1,5 +1,6 @@
 package br.com.futscore
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         btnStart = findViewById(R.id.btnStart)
         txtScore01 = findViewById(R.id.txtScore01)
         txtScore02 = findViewById(R.id.txtScore02)
+        btnSettings = findViewById(R.id.btnSettings)
+        btnHistory = findViewById(R.id.btnHistory)
 
 
         btnStart.setOnClickListener(View.OnClickListener {
@@ -50,6 +53,16 @@ class MainActivity : AppCompatActivity() {
                 updateScore()
             }
         })
+
+        btnSettings.setOnClickListener {
+            val intent = Intent(this, ConfigActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnHistory.setOnClickListener {
+            val intent = Intent(this, HistoricActivity::class.java)
+            startActivity(intent)
+        }
     }
     private fun updateScore() {
         txtScore01.text = String.format("%02d", scoreTeam01)
