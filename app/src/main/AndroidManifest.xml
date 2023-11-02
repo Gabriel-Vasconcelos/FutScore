@@ -18,7 +18,7 @@
             android:exported="false" />
         <activity
             android:name=".ConfigActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
