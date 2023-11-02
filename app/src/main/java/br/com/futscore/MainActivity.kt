@@ -1,14 +1,18 @@
 package br.com.futscore
 
 import CountUpTimer
+import Game
 import ScoreManager
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     var gameStarted: Boolean = false
@@ -29,11 +33,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnUndo: ImageButton
     private lateinit var btnStart: Button
 
+    @SuppressLint("MutatingSharedPrefs")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         btnStart = findViewById(R.id.btnStart)
+        txtGame = findViewById(R.id.txtGame)
+        txtTeam01 = findViewById(R.id.txtTeam01)
+        txtTeam02 = findViewById(R.id.txtTeam02)
         txtScore01 = findViewById(R.id.txtScore01)
         txtScore02 = findViewById(R.id.txtScore02)
         txtTimer = findViewById(R.id.txtTimer)
@@ -46,7 +54,18 @@ class MainActivity : AppCompatActivity() {
             gameStarted = true
             btnStart.isClickable = false
             countUpTimer = CountUpTimer { elapsedTime ->
-                txtTimer.text = formatTime(elapsedTime)
+                if (elapsedTime >= 5) {
+                    /**
+                     * Está travando aqui
+                     */
+                    saveGame();
+                    countUpTimer?.stop()
+                    txtTimer.text = "Tempo esgotado"
+                    gameStarted = false
+                    btnStart.isClickable = true
+                } else {
+                    txtTimer.text = formatTime(elapsedTime)
+                }
             }
             countUpTimer?.start()
         })
@@ -95,8 +114,30 @@ class MainActivity : AppCompatActivity() {
             updateScore()
         })
 
-
     }
+
+    @SuppressLint("MutatingSharedPrefs")
+    private fun saveGame(){
+        val game = Game(
+            txtGame.text.toString(),
+            txtTeam01.text.toString(),
+            txtTeam02.text.toString(),
+            txtScore01.text.toString().toInt(),
+            txtScore02.text.toString().toInt(),
+            txtTimer.text.toString(),
+            Date()
+        )
+        val sharedPreferences = getSharedPreferences("historic", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        val historic = sharedPreferences.getStringSet("historic", HashSet<String>()) ?: HashSet<String>()
+
+        historic.add(game.toString())
+
+        editor.putStringSet("historic", historic)
+        editor.apply()
+    }
+
     private fun updateScore() {
         txtScore01.text = String.format("%02d", scoreTeam01)
         txtScore02.text = String.format("%02d", scoreTeam02)
