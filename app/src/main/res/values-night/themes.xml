@@ -1,8 +1,9 @@
-<resources>
-    <style name="Theme.FutScore" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/md_theme_dark_primary</item>
-        <item name="android:navigationBarColor">#141218</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.FutScore" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:navigationBarColor">#191C19</item>
         <item name="android:statusBarColor">#006D39</item>
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
