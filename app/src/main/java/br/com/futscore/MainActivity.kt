@@ -55,9 +55,6 @@ class MainActivity : AppCompatActivity() {
             btnStart.isClickable = false
             countUpTimer = CountUpTimer { elapsedTime ->
                 if (elapsedTime >= 5) {
-                    /**
-                     * Está travando aqui
-                     */
                     saveGame();
                     countUpTimer?.stop()
                     txtTimer.text = "Tempo esgotado"

@@ -5,6 +5,7 @@
     android:id="@+id/score_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/background"
     tools:context=".MainActivity">
 
     <TextView
@@ -12,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="76dp"
         android:text="@string/team_01"
         android:textAlignment="viewStart"
@@ -28,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="73dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/team_b"
         android:textAlignment="viewEnd"
         android:textSize="16sp"
@@ -41,7 +42,6 @@
         android:id="@+id/txtScore01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:layout_marginBottom="34dp"
         android:text="@string/_scoreA"
         android:textColor="@color/text_color"
@@ -56,7 +56,6 @@
         android:id="@+id/txtScore02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:layout_marginBottom="34dp"
         android:text="@string/_scoreB"
         android:textColor="@color/text_color"
@@ -74,7 +73,7 @@
         android:layout_marginStart="240dp"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="14dp"
         android:background="@drawable/small_btn"
         android:contentDescription="@string/desc_history"
         app:layout_constraintBottom_toTopOf="@+id/divider9"
@@ -107,7 +106,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="262dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="14dp"
         android:background="@drawable/small_btn"
         android:contentDescription="@string/desc_undo"
         app:layout_constraintBottom_toTopOf="@+id/divider9"
@@ -121,7 +120,7 @@
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="106dp"
+        android:layout_marginTop="90dp"
         android:backgroundTint="@color/main_btn"
         android:text="     Começar Jogo"
         android:textAlignment="textEnd"
@@ -198,8 +197,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/txtScore02"
-        tools:layout_editor_absoluteY="1dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="1dp" />
 
     <View
         android:id="@+id/divider7"
