@@ -38,6 +38,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val game = intent.getStringExtra("game")
+        val teamOne = intent.getStringExtra("teamOne")
+        val teamTwo = intent.getStringExtra("teamTwo")
+        val interval = intent.getIntExtra("interval", 0)
+
         btnStart = findViewById(R.id.btnStart)
         txtGame = findViewById(R.id.txtGame)
         txtTeam01 = findViewById(R.id.txtTeam01)
@@ -49,19 +54,28 @@ class MainActivity : AppCompatActivity() {
         btnHistory = findViewById(R.id.btnHistory)
         btnUndo = findViewById(R.id.btnUndo)
 
+        txtGame.text = game
+        txtTeam01.text = teamOne
+        txtTeam02.text = teamTwo
+
+
 
         btnStart.setOnClickListener(View.OnClickListener {
             gameStarted = true
             btnStart.isClickable = false
             countUpTimer = CountUpTimer { elapsedTime ->
-                if (elapsedTime >= 5) {
+                if (elapsedTime >= 60 + (interval*60)) {
                     saveGame();
                     countUpTimer?.stop()
                     txtTimer.text = "Tempo esgotado"
                     gameStarted = false
                     btnStart.isClickable = true
                 } else {
-                    txtTimer.text = formatTime(elapsedTime)
+                    if(elapsedTime >= 30 && elapsedTime < 30 + (interval*60)){
+                        txtTimer.text = "Intervalo..."
+                    }else {
+                        txtTimer.text = formatTime(elapsedTime)
+                    }
                 }
             }
             countUpTimer?.start()
