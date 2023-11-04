@@ -34,7 +34,7 @@ O ícone foi retirado do site [Flaticon](https://www.flaticon.com/free-icon/foot
 
 |   Ícone   |
 |-----------|
-| ![Logo FutScore](readme-assets\logo.png) |
+| ![Logo FutScore](readme-assets/logo.png) |
 
 
 ### Temas e Layouts
@@ -43,9 +43,9 @@ O design deste app foi feito seguindo as guidelines da terceira versão do [Mate
 
 #### Temas
 
-|   ![Valores Tema Claro](readme-assets\light-theme.png)  |
+|   ![Valores Tema Claro](readme-assets/light-theme.png)  |
 |-|
-|   ![Valores Tema Escuro](readme-assets\dark-theme.png)  |
+|   ![Valores Tema Escuro](readme-assets/dark-theme.png)  |
 
 #### Layouts
 
@@ -53,8 +53,8 @@ Assim, definimos as seguintes telas:
 
 |   Tela de Placar  |   Tela de Configuração    |   Tela de Histórico   |
 |-----------|----------| ---------|
-|  ![Tela do Placar - Modo Claro](readme-assets\placar-light.png) |  ![Tela de Configuração - Modo Claro](readme-assets\config-light.png)   | ![Tela de Histórico - Modo Claro](readme-assets\historico-light.png)  |
-| ![Tela do Placar - Modo Escuro](readme-assets\placar-dark.png)  | ![Tela de Configuração - Modo Escuro](readme-assets\config-dark.png)  | ![Tela de Histórico - Modo Escuro](readme-assets\historico-dark.png)  |
+|  ![Tela do Placar - Modo Claro](readme-assets/placar-light.png) |  ![Tela de Configuração - Modo Claro](readme-assets/config-light.png)   | ![Tela de Histórico - Modo Claro](readme-assets/historico-light.png)  |
+| ![Tela do Placar - Modo Escuro](readme-assets/placar-dark.png)  | ![Tela de Configuração - Modo Escuro](readme-assets/config-dark.png)  | ![Tela de Histórico - Modo Escuro](readme-assets/historico-dark.png)  |
 
 ## Configurações :gear:
 
