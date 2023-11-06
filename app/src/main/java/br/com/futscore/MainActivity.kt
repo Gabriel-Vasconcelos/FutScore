@@ -61,34 +61,36 @@ class MainActivity : AppCompatActivity() {
 
 
         btnStart.setOnClickListener(View.OnClickListener {
-            gameStarted = true
-            btnStart.isClickable = false
-            countUpTimer = CountUpTimer { elapsedTime ->
-                if (elapsedTime >= 60 + (interval*60)) {
-                    saveGame();
-                    countUpTimer?.stop()
-                    txtTimer.text = "Tempo esgotado"
-                    gameStarted = false
-                    btnStart.isClickable = true
-                    txtGame.text = ""
-                    txtTeam01.text = ""
-                    txtTeam02.text = ""
-                    score.updateScore(1,0)
-                    score.updateScore(2,0)
-                    scoreTeam02 = 0
-                    scoreTeam02 = 0
-                    txtScore01.text = "00"
-                    txtScore02.text = "00"
+            if( txtGame.text != "") {
+                gameStarted = true
+                btnStart.isClickable = false
+                countUpTimer = CountUpTimer { elapsedTime ->
+                    if (elapsedTime >= 60 + (interval*60)) {
+                        saveGame();
+                        countUpTimer?.stop()
+                        txtTimer.text = "Tempo esgotado"
+                        gameStarted = false
+                        btnStart.isClickable = true
+                        txtGame.text = ""
+                        txtTeam01.text = ""
+                        txtTeam02.text = ""
+                        score.updateScore(1,0)
+                        score.updateScore(2,0)
+                        scoreTeam02 = 0
+                        scoreTeam02 = 0
+                        txtScore01.text = "00"
+                        txtScore02.text = "00"
 
-                } else {
-                    if(elapsedTime >= 30 && elapsedTime < 30 + (interval*60)){
-                        txtTimer.text = "Intervalo..."
-                    }else {
-                        txtTimer.text = formatTime(elapsedTime)
+                    } else {
+                        if(elapsedTime >= 30 && elapsedTime < 30 + (interval*60)){
+                            txtTimer.text = "Intervalo..."
+                        }else {
+                            txtTimer.text = formatTime(elapsedTime)
+                        }
                     }
                 }
+                countUpTimer?.start()
             }
-            countUpTimer?.start()
         })
 
         txtScore01.setOnClickListener(View.OnClickListener {
@@ -123,8 +125,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnHistory.setOnClickListener {
-            val intent = Intent(this, HistoricActivity::class.java)
-            startActivity(intent)
+            if(!gameStarted) {
+                val intent = Intent(this, HistoricActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         btnUndo.setOnClickListener(View.OnClickListener {
