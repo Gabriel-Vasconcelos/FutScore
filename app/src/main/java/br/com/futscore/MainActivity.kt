@@ -70,6 +70,16 @@ class MainActivity : AppCompatActivity() {
                     txtTimer.text = "Tempo esgotado"
                     gameStarted = false
                     btnStart.isClickable = true
+                    txtGame.text = ""
+                    txtTeam01.text = ""
+                    txtTeam02.text = ""
+                    score.updateScore(1,0)
+                    score.updateScore(2,0)
+                    scoreTeam02 = 0
+                    scoreTeam02 = 0
+                    txtScore01.text = "00"
+                    txtScore02.text = "00"
+
                 } else {
                     if(elapsedTime >= 30 && elapsedTime < 30 + (interval*60)){
                         txtTimer.text = "Intervalo..."
@@ -82,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         txtScore01.setOnClickListener(View.OnClickListener {
-            if(gameStarted){
+            if(gameStarted && (txtTimer.text != "Intervalo...")){
                 score.updateScore(1, scoreTeam01 + 1)
                 scoreTeam01 = score.getScore(1)
                 updateScore()
@@ -94,7 +104,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         txtScore02.setOnClickListener(View.OnClickListener {
-            if(gameStarted){
+            if(gameStarted && (txtTimer.text != "Intervalo...")){
                 score.updateScore(1, scoreTeam01)
                 scoreTeam01 = score.getScore(1)
                 updateScore()
@@ -106,8 +116,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         btnSettings.setOnClickListener {
-            val intent = Intent(this, ConfigActivity::class.java)
-            startActivity(intent)
+            if(!gameStarted) {
+                val intent = Intent(this, ConfigActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         btnHistory.setOnClickListener {
@@ -116,13 +128,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnUndo.setOnClickListener(View.OnClickListener {
-            score.undo(1)
-            scoreTeam01 = score.getScore(1)
-            updateScore()
+            if((txtTimer.text != "Intervalo...")){
+                score.undo(1)
+                scoreTeam01 = score.getScore(1)
+                updateScore()
 
-            score.undo(2)
-            scoreTeam02 = score.getScore(2)
-            updateScore()
+                score.undo(2)
+                scoreTeam02 = score.getScore(2)
+                updateScore()
+            }
         })
 
     }
