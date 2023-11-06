@@ -12,6 +12,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import com.google.gson.Gson
+import data.Scoreboard
 import java.util.Date
 
 class MainActivity : AppCompatActivity() {
@@ -129,7 +131,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MutatingSharedPrefs")
     private fun saveGame(){
-        val game = Game(
+        val scoreboard = Scoreboard(
             txtGame.text.toString(),
             txtTeam01.text.toString(),
             txtTeam02.text.toString(),
@@ -138,12 +140,16 @@ class MainActivity : AppCompatActivity() {
             txtTimer.text.toString(),
             Date()
         )
+
+        // Serializa o objeto Scoreboard para JSON
+        val scoreboardJson = Gson().toJson(scoreboard)
+
         val sharedPreferences = getSharedPreferences("historic", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
         val historic = sharedPreferences.getStringSet("historic", HashSet<String>()) ?: HashSet<String>()
 
-        historic.add(game.toString())
+        historic.add(scoreboardJson)
 
         editor.putStringSet("historic", historic)
         editor.apply()

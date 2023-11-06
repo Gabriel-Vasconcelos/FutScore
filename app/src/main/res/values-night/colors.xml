@@ -5,6 +5,8 @@
     <color name="main_btn">#53B976</color>
     <color name="smal_btn">#83F8CE</color>
     <color name="text_color">#D7D7D7</color>
+    <color name="text_color_secondary">#E1E3DE</color>
+    <color name="container_color_historic">#005229</color>
     <color name="btn_disabled">#DDE5DB</color>
 
 

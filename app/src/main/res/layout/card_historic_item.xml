@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="25dp"
+    android:layout_marginBottom="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="14dp"
+        android:orientation="vertical"
+        android:background="@color/container_color_historic">
+        <TextView
+            android:id="@+id/textMatchName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Nome da Partida"
+            android:layout_marginBottom="6dp"
+            android:textColor="@color/text_color_secondary"/>
+        <TextView
+            android:id="@+id/textTeamName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Time 01 vs Time 02"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/textGameResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="0 x 0"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/textGameDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="00/00/0000"
+            android:layout_marginBottom="4dp"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
