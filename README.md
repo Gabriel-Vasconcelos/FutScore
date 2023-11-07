@@ -68,7 +68,103 @@ As configurações que poderão ser modificadas a cada jogo são:
 *   Nome dos Times;
 *   Duração do Intervalo (que, segundo a CBF, não deve exceder 15 minutos).
 
-// TODO: colocar explicação do código
+1. Declaração de Variáveis e Configuração Inicial
+
+   Na primeira parte do código, ocorre a preparação inicial da atividade de configuração de um aplicativo Android. Ela inclui a declaração e inicialização de variáveis para elementos da interface do usuário, como botões e campos de texto. Além disso, é configurado o uso do SharedPreferences para armazenar dados. Também há uma tentativa de restaurar valores previamente salvos. Basicamente, esta parte do código prepara a interface e configuração iniciais da atividade antes de lidar com ações dos botões.
+   
+   ```kotlin
+       override fun onCreate(savedInstanceState: Bundle?) {
+           super.onCreate(savedInstanceState)
+           Log.i("ciclo_vida", "onCreate")
+           setContentView(R.layout.activity_config)
+   
+           buttonBack = findViewById(R.id.buttonBack)
+           gameName = findViewById(R.id.gameName)
+           teamOneName = findViewById(R.id.teamOneName)
+           teamTwoName = findViewById(R.id.teamTwoName)
+           interval = findViewById(R.id.interval)
+           playButton = findViewById(R.id.playButton)
+   
+           // Inicialize o SharedPreferences
+           sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+   
+           // Restaure o texto salvo, se existir
+           val textoSalvo = sharedPreferences.getString("textoSalvo", "")
+           val saveNameGame = sharedPreferences.getString("saveNameGame", "")
+           val saveTeamOneName = sharedPreferences.getString("saveTeamOneName", "")
+           val saveTeamTwoName = sharedPreferences.getString("saveTeamTwoName", "")
+           val saveInterval = sharedPreferences.getInt("saveInterval", 0)
+   
+           gameName.setText(saveNameGame)
+           teamOneName.setText(saveTeamOneName)
+           teamTwoName.setText(saveTeamTwoName)
+           interval.setText(saveInterval.toString())
+   
+   ```
+
+2. Tratamento de Ações dos Botões
+
+   Nesta parte, você configura os ouvintes de clique para os botões "playButton" e "buttonBack". Quando o botão "playButton" é clicado, ele obtém os valores dos campos de texto, salva esses valores no SharedPreferences e inicia uma nova atividade (tela). O botão "buttonBack" faz o mesmo, obtendo os valores dos campos de texto, salvando no SharedPreferences e iniciando a mesma atividade principal.
+
+    ```kotlin
+       playButton.setOnClickListener {
+            val textGameName = gameName.text.toString()
+            val textTeamOneName = teamOneName.text.toString()
+            val textTeamTwoName = teamTwoName.text.toString()
+            val textInterval = interval.text.toString().toInt()
+
+            // Salvar o texto no SharedPreferences
+            val editor = sharedPreferences.edit()
+            editor.putString("saveNameGame", textGameName)
+            editor.putString("saveTeamOneName", textTeamOneName)
+            editor.putString("saveTeamTwoName", textTeamTwoName)
+            editor.putInt("saveInterval", textInterval)
+            editor.commit()
+
+            val intent = Intent(
+                this,
+                MainActivity::class.java
+            )
+
+            //Passar parâmetros para nova tela
+            intent.putExtra("game", textGameName)
+            intent.putExtra("teamOne", textTeamOneName)
+            intent.putExtra("teamTwo", textTeamTwoName)
+            intent.putExtra("interval", textInterval)
+
+            //Iniciar uma nova tela
+            startActivity(intent)
+
+        }
+
+        buttonBack.setOnClickListener {
+            val textGameName = gameName.text.toString()
+            val textTeamOneName = teamOneName.text.toString()
+            val textTeamTwoName = teamTwoName.text.toString()
+            val textInterval = interval.text.toString().toInt()
+
+            // Salvar o texto no SharedPreferences
+            val editor = sharedPreferences.edit()
+            editor.putString("saveNameGame", textGameName)
+            editor.putString("saveTeamOneName", textTeamOneName)
+            editor.putString("saveTeamTwoName", textTeamTwoName)
+            editor.putInt("saveInterval", textInterval)
+            editor.commit()
+
+            val intent = Intent(
+                this,
+                MainActivity::class.java
+            )
+            //Passar parâmetros para nova tela
+            intent.putExtra("game", textGameName)
+            intent.putExtra("teamOne", textTeamOneName)
+            intent.putExtra("teamTwo", textTeamTwoName)
+            intent.putExtra("interval", textInterval)
+
+            //Iniciar uma nova tela
+            startActivity(intent)
+        }
+    ```
 
 ## Funcionalidades do Placar :goal_net:
 
