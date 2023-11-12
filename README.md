@@ -375,8 +375,167 @@ As configurações que poderão ser modificadas a cada jogo são:
    ``` 
 
 ## Histórico :scroll:
+O histórico lista todas as partidas finalizadas e permite o compartilhamento por texto dessas partidas.
 
-// TODO: colocar explicação do código
+Foi utilizado o componente _RecyclerView_ para fazer a listagem, a biblioteca _Gson_ para serializar o objeto (Placar) e, por fim, o _sharedPreferences_ para salvar esse objeto serializado.
+
+1. Classe para o Placar (Scoreboard.kt)
+   
+   Foi criada uma classe para representar o placar, possuindo atributos como nome do time, pontuação, data do jogo, nome do primeiro e segundo time, etc.
+   
+   ```
+   package data
+   
+   import java.util.Date
+   
+   data class Scoreboard(
+       val matchName: String,
+       val teamOne: String,
+       val teamTwo: String,
+       val scoreTeamOne: Int,
+       val scoreTeamTwo: Int,
+       val timer: String,
+       val gameDate: Date
+   )
+   ```
+   
+2. Salvando e serializando o objeto _Scoreboard_ (MainActivity.kt)
+   
+   No método saveGame() é feita a instanciação da classe Scoreboard e é passada no construtor as informações do jogo que estão na MainActivity. Em seguida o objeto é serializado utilizando a biblioteca Gson e é salvo utilizando o sharedPreferences.
+   
+   ```
+   private fun saveGame(){
+           val scoreboard = Scoreboard(
+               txtGame.text.toString(),
+               txtTeam01.text.toString(),
+               txtTeam02.text.toString(),
+               txtScore01.text.toString().toInt(),
+               txtScore02.text.toString().toInt(),
+               txtTimer.text.toString(),
+               Date()
+           )
+   
+           // Serializa o objeto Scoreboard para JSON
+           val scoreboardJson = Gson().toJson(scoreboard)
+   
+           val sharedPreferences = getSharedPreferences("historic", MODE_PRIVATE)
+           val editor = sharedPreferences.edit()
+   
+           val historic = sharedPreferences.getStringSet("historic", HashSet<String>()) ?: HashSet<String>()
+   
+           historic.add(scoreboardJson)
+   
+           editor.putStringSet("historic", historic)
+           editor.apply()
+       }
+   ```
+
+3. Adapter (CustomAdapter.kt)
+   
+   Na classe CustomAdapter é feita toda a lógica relacionada ao RecyclerView.
+
+   Ligando o RecyclerView a um View Holder
+   ```
+    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+        val textMatchName: TextView = itemView.findViewById(R.id.textMatchName)
+        val textTeamName: TextView = itemView.findViewById(R.id.textTeamName)
+        val textGameResult: TextView = itemView.findViewById(R.id.textGameResult)
+        val textGameDate: TextView = itemView.findViewById(R.id.textGameDate)
+    }
+   ```
+
+   Função usada para formatar a data para que fique da forma desejada
+   ```
+   private fun formatDate(data: Date): String {
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return sdf.format(data)
+    }
+   ```
+
+   É feita o 'bind' de uma ViewHolder para um objeto (Placar) da lista, nela é formatado os textos e a data para que fique da forma que gostaríamos.
+   Também é adicionado à _View_ um _listener_ de _click_ com um _intent_ para que as informações daquele objeto possam ser compartilhadas por whatsapp ou outros aplicativos.
+   ```
+   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val scoreboard = myList[position];
+
+        val gameScoreResult: String = "${scoreboard.scoreTeamOne} x ${scoreboard.scoreTeamTwo}"
+        val teamsName: String = "${scoreboard.teamOne} vs ${scoreboard.teamTwo}"
+        val gameDate: String = formatDate(scoreboard.gameDate)
+
+        holder.textMatchName.text = scoreboard.matchName
+        holder.textGameDate.text = gameDate
+        holder.textGameResult.text = gameScoreResult
+        holder.textTeamName.text = teamsName
+
+        holder.itemView.setOnClickListener {
+            val message: String =
+                "${scoreboard.matchName}\n ${gameScoreResult}\n ${teamsName}\n $gameDate"
+
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, message)
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            context.startActivity(shareIntent)
+        }
+
+    }
+   ``
+
+4. Inicializando o RecyclerView com as informações do SharedPreferences (HistoricActivity.kt)
+
+   Função responsável por recuperar objetos JSON armazenados no SharedPreferences e deserializá-los utilizando a biblioteca Gson.
+   ```
+   fun readScoreboardDataSharedPreferences(): ArrayList<Scoreboard> {
+        val data = ArrayList<Scoreboard>()
+        val sp: SharedPreferences = getSharedPreferences("historic", Context.MODE_PRIVATE)
+
+        if (sp != null) {
+            val historic = sp.getStringSet("historic", HashSet<String>()) ?: HashSet<String>()
+            val gson = Gson()
+
+            for (json in historic) {
+                val scoreboard = gson.fromJson(json, Scoreboard::class.java)
+                data.add(scoreboard)
+            }
+        }
+        return data
+    }
+   ```
+   
+   A seguitne função realiza a inicialização do RecyclerView ao fornecer uma lista de objetos.
+   ```
+   private fun initRecyclerView() {
+        // Obtém a lista de objetos Scoreboard do SharedPreferences
+        val data = readScoreboardDataSharedPreferences()
+
+        // Configura o layout manager para o RecyclerView
+        binding.rcHistoric.layoutManager = LinearLayoutManager(this)
+
+        // Otimiza o desempenho definindo o tamanho fixo do RecyclerView
+        binding.rcHistoric.setHasFixedSize(true)
+
+         // Associa o RecyclerView ao adaptador, passando a lista de objetos e o contexto da activity atual
+        binding.rcHistoric.adapter = CustomAdapter(data, this)
+    }
+   ```
+
+   No método onCreate, é feita a vinculação com o layout _activity_historic_, a chamada da função que inicializa o RecyclerView, e a configuração de um _listener_ para o botão "buttonBack", possibilitando a navegação de volta à tela anterior (MainActivity).
+   ```
+   override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHistoricBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        initRecyclerView()
+
+        binding.buttonBack.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+    }
+   ```
 
 ## Resultados :play_or_pause_button:
 
