@@ -380,6 +380,7 @@ O histórico lista todas as partidas finalizadas e permite o compartilhamento po
 Foi utilizado o componente _RecyclerView_ para fazer a listagem, a biblioteca _Gson_ para serializar o objeto (Placar) e, por fim, o _sharedPreferences_ para salvar esse objeto serializado.
 
 1. Classe para o Placar (Scoreboard.kt)
+   
    Foi criada uma classe para representar o placar, possuindo atributos como nome do time, pontuação, data do jogo, nome do primeiro e segundo time, etc.
    
    ```
@@ -399,6 +400,7 @@ Foi utilizado o componente _RecyclerView_ para fazer a listagem, a biblioteca _G
    ```
    
 2. Salvando e serializando o objeto _Scoreboard_ (MainActivity.kt)
+   
    No método saveGame() é feita a instanciação da classe Scoreboard e é passada no construtor as informações do jogo que estão na MainActivity. Em seguida o objeto é serializado utilizando a biblioteca Gson e é salvo utilizando o sharedPreferences.
    
    ```
@@ -429,6 +431,7 @@ Foi utilizado o componente _RecyclerView_ para fazer a listagem, a biblioteca _G
    ```
 
 3. Adapter (CustomAdapter.kt)
+   
    Na classe CustomAdapter é feita toda a lógica relacionada ao RecyclerView.
 
    Ligando o RecyclerView a um View Holder
@@ -482,7 +485,7 @@ Foi utilizado o componente _RecyclerView_ para fazer a listagem, a biblioteca _G
 
 4. Inicializando o RecyclerView com as informações do SharedPreferences (HistoricActivity.kt)
 
-   Função responsável por recuperar objetos JSON armazenados no SharedPreferences e deserializá-los utilizando a         biblioteca Gson.
+   Função responsável por recuperar objetos JSON armazenados no SharedPreferences e deserializá-los utilizando a biblioteca Gson.
    ```
    fun readScoreboardDataSharedPreferences(): ArrayList<Scoreboard> {
         val data = ArrayList<Scoreboard>()
