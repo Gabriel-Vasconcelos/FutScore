@@ -2,10 +2,10 @@
 
 > **Equipe:** 
 >   
->   * Gabriel Vasconcelos da Silva (511451)
->   * Gabriel Vieira Marques (509640)
->   * João Victor Barroso Alves (509697)
->   * Yanna Torres Gonçalves (507773)
+>   * Gabriel Vasconcelos da Silva
+>   * Gabriel Vieira Marques
+>   * João Victor Barroso Alves
+>   * Yanna Torres Gonçalves
 >
 > **Disciplina:** Programação para Dispositivos Móveis (SMD0122)
 >
